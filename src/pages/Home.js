@@ -39,7 +39,7 @@ const Home = () => {
 					<button
 						type="submit"
 						onClick={() => {
-							console.log(userList);
+							console.log(user);
 						}}>
 						TESt
 					</button>
@@ -79,6 +79,7 @@ const Home = () => {
 						priv_edit={user.priv_edit}
 						priv_delete={user.priv_delete}
 						cardData={cardData}
+						token={user.token}
 					/>
 					<Modal
 						show={modalAdd}
@@ -87,6 +88,8 @@ const Home = () => {
 							setShow(false);
 						}}
 						priv_add={user.priv_add}
+						cardData={{}}
+						token={user.token}
 					/>
 				</>
 			) : (
