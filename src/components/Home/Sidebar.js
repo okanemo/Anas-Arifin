@@ -11,8 +11,12 @@ const Sidebar = ({ id, priv_add, setPage, setOpen }) => {
 				}}
 			/>
 			{priv_add ? <img src={user_list} onClick={setOpen} /> : <></>}
-			<img src={user_list} />
-			<img src={user_list} />
+			<img
+				src={user_list}
+				onClick={() => {
+					setPage("profile");
+				}}
+			/>
 			{id === 1 ? (
 				<img
 					src={user_list}

@@ -6,6 +6,7 @@ import { login } from "../redux/actions/user";
 import Sidebar from "../components/Home/Sidebar";
 import Product from "../components/Home/Product";
 import Admin from "../components/Home/Admin";
+import Profile from "../components/Home/Profile";
 import Modal from "../components/Home/ModalProduct";
 
 const Home = () => {
@@ -55,6 +56,8 @@ const Home = () => {
 					/>
 					{page == "admin" ? (
 						<Admin />
+					) : page == "profile" ? (
+						<Profile user={user} />
 					) : (
 						<Product
 							setOpen={() => {
@@ -84,7 +87,6 @@ const Home = () => {
 							setShow(false);
 						}}
 						priv_add={user.priv_add}
-						cardData={cardData}
 					/>
 				</>
 			) : (
