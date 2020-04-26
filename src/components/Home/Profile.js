@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import close from "../../images/close.png";
+import admin from "../../images/admin.png";
 
 const urlImg = "http://192.168.1.25:6600/public/img/avatar/";
 
@@ -36,10 +37,20 @@ const Profile = ({ user, show, setClose }) => {
 		<>
 			{user.username === "admin" ? (
 				<div id="profile" className={show ? "admin show" : "admin"}>
-					<img className="close" src={close} onClick={setClose} />
+					<img
+						className="close"
+						src={close}
+						onClick={() => {
+							setEdit(false);
+							setClose();
+						}}
+					/>
 					<form>
 						{!edit ? (
-							<h1>You are admin!</h1>
+							<>
+								<img src={admin} alt="admin" />
+								<h1>You are admin!</h1>
+							</>
 						) : (
 							<>
 								<label>
@@ -53,7 +64,7 @@ const Profile = ({ user, show, setClose }) => {
 							</>
 						)}
 						{edit ? (
-							<>
+							<div className="button">
 								<button
 									type="button"
 									onClick={() => {
@@ -70,9 +81,10 @@ const Profile = ({ user, show, setClose }) => {
 									}}>
 									Cancel
 								</button>
-							</>
+							</div>
 						) : (
 							<button
+								className="changePassword"
 								type="button"
 								onClick={async () => {
 									await setEdit(true);

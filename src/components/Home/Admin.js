@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import Axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserList } from "../../redux/actions/user";
+import Privilege from "./Privilege";
 
-const Admin = ({ token }) => {
+const Admin = ({ token, setPriv }) => {
 	const userList = useSelector((state) => state.user.userList);
 	const dispatch = useDispatch();
 
@@ -18,14 +19,17 @@ const Admin = ({ token }) => {
 
 	const userListLoop = [];
 	userList.forEach((x, i) => {
-		console.log(x.priv_edit);
 		userListLoop.push(
-			<ul className="list">
+			<ul
+				className="list"
+				onClick={() => {
+					setPriv(x);
+				}}>
 				<li>{i + 1}</li>
 				<li>{x.username}</li>
 				<li>{x.name || "—"}</li>
 				<li>{x.email || "—"}</li>
-				<li>{(x.priv_add ? "A" : "") + (x.priv_edit ? "E" : "") + (x.priv_delete ? "D" : "") || "—"}</li>
+				<li className="space">{(x.priv_add ? "A" : "") + (x.priv_edit ? "E" : "") + (x.priv_delete ? "D" : "") || "—"}</li>
 			</ul>,
 		);
 	});

@@ -8,10 +8,12 @@ import Product from "../components/Home/Product";
 import Admin from "../components/Home/Admin";
 import Profile from "../components/Home/Profile";
 import Modal from "../components/Home/ModalProduct";
+import Privilege from "../components/Home/Privilege";
 
 const Home = ({ location }) => {
 	const [page, setPage] = useState();
 	const [show, setShow] = useState(false);
+	const [priv, setPriv] = useState(false);
 	const [cardData, setCardData] = useState(false);
 	const [modalAdd, setModalAdd] = useState(false);
 	const [modalEdit, setModalEdit] = useState(false);
@@ -75,7 +77,13 @@ const Home = ({ location }) => {
 						}}
 					/>
 					{page == "admin" ? (
-						<Admin token={user.token} />
+						<Admin
+							token={user.token}
+							setPriv={(x) => {
+								setPriv(x);
+								setShow(true);
+							}}
+						/>
 					) : (
 						<Product
 							setOpen={() => {
@@ -114,6 +122,14 @@ const Home = ({ location }) => {
 						user={user}
 						setClose={() => {
 							setModalProfile(false);
+							setShow(false);
+						}}
+					/>
+					<Privilege
+						user={priv}
+						token={user.token}
+						setClose={() => {
+							setPriv(false);
 							setShow(false);
 						}}
 					/>
