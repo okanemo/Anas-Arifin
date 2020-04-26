@@ -8,6 +8,17 @@
 	width: 100%;
 	height: 100%;
 }
+@mixin input {
+	box-sizing: border-box;
+	font-size: 1.2rem;
+	margin: 0 auto 15px;
+	padding: 12px 16px;
+	border: none;
+	border-bottom: 1.5px solid hotpink;
+	width: 100%;
+	outline: none;
+	display: block;
+}
 
 $primary: red;
 $secondary: black;
@@ -28,9 +39,22 @@ body {
 		grid-gap: 20px;
 		justify-content: center;
 		.card {
-			background-color: lightblue;
+			position: relative;
+			background-size: cover;
 			border-radius: 10px;
+			box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
 			cursor: pointer;
+			div {
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				background-color: rgba(0, 0, 0, 0.75);
+				border-radius: 0 0 10px 10px;
+				font-size: 25px;
+				text-align: center;
+				line-height: 45px;
+				color: white;
+			}
 		}
 	}
 	.sidebar {
@@ -57,7 +81,8 @@ body {
 		background-color: whitesmoke;
 		padding: 20px;
 		font-size: 22px;
-		transition: 0.4s top;
+		opacity: 0;
+		transition: 0.4s;
 		label {
 			display: block;
 			margin-bottom: 10px;
@@ -90,6 +115,7 @@ body {
 		}
 		&.show {
 			top: 50%;
+			opacity: 1;
 		}
 	}
 	.blank {
@@ -100,6 +126,201 @@ body {
 		&.show {
 			bottom: 0;
 			right: 0;
+		}
+	}
+}
+
+// ====================
+
+#profile {
+	@include center;
+	position: fixed;
+	width: 90%;
+	height: 95%;
+	top: 150%;
+	max-width: 400px;
+	max-height: 560px;
+	font-size: 22px;
+	background-color: whitesmoke;
+	opacity: 0;
+	transition: 0.4s;
+	&.admin {
+		height: 300px;
+	}
+	&.show {
+		opacity: 1;
+		top: 50%;
+	}
+	.close {
+		position: absolute;
+		top: -20px;
+		right: -20px;
+		width: 40px;
+		z-index: 99;
+		cursor: pointer;
+	}
+	.scroll {
+		position: relative;
+		overflow: auto;
+		height: 100%;
+	}
+	form {
+		margin: auto;
+		width: 350px;
+	}
+	.image {
+		margin: 16px auto 0;
+		cursor: pointer;
+		width: 100px;
+		height: auto;
+		img {
+			width: 100px;
+		}
+	}
+	.button {
+		margin-bottom: 16px;
+	}
+	h4 {
+		text-align: center;
+		margin-block-start: 15px;
+	}
+	label {
+		display: block;
+		font-size: 20px;
+		input,
+		textarea {
+			@include input;
+			background-color: transparent;
+			font-size: 1.3rem;
+			&:disabled {
+				border-bottom: 1.5px solid transparent;
+				color: black;
+			}
+		}
+		textarea {
+			margin-top: 3px;
+			font: arial;
+		}
+		input[type="number"]::-webkit-inner-spin-button,
+		input[type="number"]::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+	}
+}
+
+// ====================
+
+ul {
+	padding-inline-start: 0;
+	list-style-type: none;
+	margin-block-start: 0;
+	margin-block-end: 0;
+}
+#admin {
+	.table {
+		width: 90%;
+		max-width: 1000px;
+		margin: auto;
+		position: relative;
+		span {
+			position: absolute;
+			top: -30px;
+			right: 10px;
+		}
+	}
+	.topTable,
+	.list {
+		display: grid;
+		grid-template-columns: repeat(10, 1fr);
+		width: 100%;
+		text-align: center;
+		height: 50px;
+		line-height: 50px;
+		div,
+		li {
+			&:nth-child(1) {
+				grid-column: span 1;
+			}
+			&:nth-child(2) {
+				grid-column: span 2;
+			}
+			&:nth-child(3) {
+				grid-column: span 2;
+			}
+			&:nth-child(4) {
+				grid-column: span 3;
+			}
+			&:nth-child(5) {
+				grid-column: span 2;
+			}
+		}
+	}
+	.list {
+		cursor: pointer;
+		&:hover {
+			color: salmon;
+			font-weight: bold;
+		}
+		&:nth-child(odd) {
+			background-color: rgb(240, 240, 240);
+		}
+		&:nth-child(even) {
+			background-color: rgb(200, 200, 200);
+		}
+		&:last-child {
+			border-radius: 0 0 10px 10px;
+		}
+	}
+	.topTable {
+		background-color: #90a4ae;
+		font-size: 20px;
+		font-weight: bold;
+		border-radius: 10px 10px 0 0;
+		div {
+			line-height: 50px;
+			color: white;
+		}
+	}
+}
+
+// ====================
+
+#login {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: blue;
+	form {
+		width: 350px;
+		padding: 30px;
+		background-color: white;
+		input {
+			@include input;
+		}
+		div {
+			width: 100%;
+			margin: 30px auto 0;
+			position: relative;
+		}
+		button {
+			outline: none;
+			background-color: hotpink;
+			border: 2px solid hotpink;
+			color: white;
+			width: 45%;
+			height: 40px;
+			&:hover {
+				background-color: white;
+				color: hotpink;
+			}
+			&:nth-child(2) {
+				position: absolute;
+				right: 0;
+			}
 		}
 	}
 }

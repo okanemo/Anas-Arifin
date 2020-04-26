@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../redux/actions/user";
 import Sidebar from "../components/Home/Sidebar";
@@ -9,17 +9,19 @@ import Admin from "../components/Home/Admin";
 import Profile from "../components/Home/Profile";
 import Modal from "../components/Home/ModalProduct";
 
-const Home = () => {
+const Home = ({ location }) => {
 	const [page, setPage] = useState();
 	const [show, setShow] = useState(false);
 	const [cardData, setCardData] = useState(false);
 	const [modalAdd, setModalAdd] = useState(false);
 	const [modalEdit, setModalEdit] = useState(false);
+	const [modalProfile, setModalProfile] = useState(false);
 	const user = useSelector((state) => state.user.user);
 	const userList = useSelector((state) => state.user.userList);
 	const dispatch = useDispatch();
+	const history = useHistory();
 
-	useEffect(() => {
+	const verify = () => {
 		Axios.post(
 			"http://192.168.1.25:6600/api/verify",
 			{},
@@ -27,25 +29,39 @@ const Home = () => {
 				withCredentials: true,
 			},
 		).then((resolve) => {
-			dispatch(login(resolve.data));
+			console.log(resolve);
+			if (resolve.data.error) {
+				history.replace("/login");
+			} else {
+				dispatch(login(resolve.data));
+			}
 		});
+	};
+
+	useEffect(() => {
+		if (location.state !== user?.id) {
+			verify();
+		} else if (!location.state) {
+			verify();
+		}
 	}, []);
 
 	return (
-		<div id="home">
+		<>
 			{user ? (
-				<>
+				<div id="home">
 					{" "}
 					<button
 						type="submit"
 						onClick={() => {
-							console.log(user);
+							console.log(userList);
 						}}>
 						TESt
 					</button>
 					<Sidebar
 						priv_add={user.priv_add}
 						id={user.id}
+						token={user.token}
 						setPage={(x) => {
 							setPage(x);
 						}}
@@ -53,11 +69,13 @@ const Home = () => {
 							setModalAdd(true);
 							setShow(true);
 						}}
+						setOpenProfile={() => {
+							setModalProfile(true);
+							setShow(true);
+						}}
 					/>
 					{page == "admin" ? (
-						<Admin />
-					) : page == "profile" ? (
-						<Profile user={user} />
+						<Admin token={user.token} />
 					) : (
 						<Product
 							setOpen={() => {
@@ -91,7 +109,15 @@ const Home = () => {
 						cardData={{}}
 						token={user.token}
 					/>
-				</>
+					<Profile
+						show={modalProfile}
+						user={user}
+						setClose={() => {
+							setModalProfile(false);
+							setShow(false);
+						}}
+					/>
+				</div>
 			) : (
 				<div className="loading">
 					<h1
@@ -102,7 +128,7 @@ const Home = () => {
 					</h1>
 				</div>
 			)}
-		</div>
+		</>
 	);
 };
 
