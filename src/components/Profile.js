@@ -6,7 +6,7 @@ import close from "../images/close.png";
 import admin from "../images/admin.png";
 import no_avatar from "../images/no_avatar.png";
 
-const urlImg = "http://192.168.1.25:6600/public/img/avatar/";
+const urlImg = "http://100.24.32.116:6600/public/img/avatar/";
 
 const Profile = ({ user, show, setClose }) => {
 	const [edit, setEdit] = useState(false);
@@ -58,11 +58,11 @@ const Profile = ({ user, show, setClose }) => {
 				return false;
 			}
 		}
-		Axios.patch("http://192.168.1.25:6600/api/user/" + user.username, formData, {
+		Axios.patch("http://100.24.32.116:6600/api/user/" + user.username, formData, {
 			headers: { Authorization: user.token },
 			withCredentials: true,
 		}).then(() => {
-			Axios.get("http://192.168.1.25:6600/api/user/" + user.username, {
+			Axios.get("http://100.24.32.116:6600/api/user/" + user.username, {
 				headers: { Authorization: user.token },
 				withCredentials: true,
 			}).then((resolve) => {

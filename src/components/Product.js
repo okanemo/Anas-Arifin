@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getProduct } from "../redux/actions/product";
 import no_image from "../images/no_image.png";
 
-const urlImg = "http://192.168.1.25:6600/public/img/product/";
+const urlImg = "http://100.24.32.116:6600/public/img/product/";
 
 const Product = ({ setOpen, setCardData }) => {
 	const products = useSelector((state) => state.product.products);

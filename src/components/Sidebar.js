@@ -40,7 +40,7 @@ const Sidebar = ({ token, id, priv_add, setPage, setOpen, setOpenProfile }) => {
 				alt="logout"
 				onClick={() => {
 					Axios.post(
-						"http://192.168.1.25:6600/api/logout",
+						"http://100.24.32.116:6600/api/logout",
 						{},
 						{
 							withCredentials: true,

@@ -5,7 +5,7 @@ import close from "../images/close.png";
 import { getProduct } from "../redux/actions/product";
 import no_image from "../images/no_image.png";
 
-const urlImg = "http://192.168.1.25:6600/public/img/product/";
+const urlImg = "http://100.24.32.116:6600/public/img/product/";
 
 const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_delete }) => {
 	const [data, setData] = useState({});
@@ -19,7 +19,7 @@ const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_dele
 	const submit = (type, e) => {
 		e.preventDefault();
 		if (type == "delete") {
-			Axios.delete("http://192.168.1.25:6600/api/product", {
+			Axios.delete("http://100.24.32.116:6600/api/product", {
 				data: { id: cardData.id },
 				headers: { Authorization: token },
 				withCredentials: true,
@@ -48,7 +48,7 @@ const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_dele
 			}
 		}
 		if (type == "edit") {
-			Axios.patch("http://192.168.1.25:6600/api/product/" + cardData.id, formData, {
+			Axios.patch("http://100.24.32.116:6600/api/product/" + cardData.id, formData, {
 				headers: { Authorization: token },
 				withCredentials: true,
 			}).then(() => {
@@ -57,7 +57,7 @@ const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_dele
 				setData({});
 			});
 		} else {
-			Axios.post("http://192.168.1.25:6600/api/product", formData, {
+			Axios.post("http://100.24.32.116:6600/api/product", formData, {
 				headers: { Authorization: token },
 				withCredentials: true,
 			}).then(() => {

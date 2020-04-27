@@ -10,7 +10,7 @@ const Privilege = ({ user, token, setClose }) => {
 
 	const submit = () => {
 		Axios.patch(
-			"http://192.168.1.25:6600/api/user/" + user.username,
+			"http://100.24.32.116:6600/api/user/" + user.username,
 			{
 				priv_add: priv.add,
 				priv_edit: priv.edit,
@@ -23,7 +23,7 @@ const Privilege = ({ user, token, setClose }) => {
 				withCredentials: true,
 			},
 		).then(() => {
-			Axios.get("http://192.168.1.25:6600/api/user", {
+			Axios.get("http://100.24.32.116:6600/api/user", {
 				headers: { Authorization: token },
 				withCredentials: true,
 			}).then((resolve) => {

@@ -18,7 +18,7 @@ const Register = () => {
 		e.preventDefault();
 		if (password && password === rePassword) {
 			Axios.post(
-				"http://192.168.1.25:6600/api/register",
+				"http://100.24.32.116:6600/api/register",
 				{ username, password },
 				{
 					withCredentials: true,
@@ -42,7 +42,7 @@ const Register = () => {
 
 	const verify = () => {
 		Axios.post(
-			"http://192.168.1.25:6600/api/verify",
+			"http://100.24.32.116:6600/api/verify",
 			{},
 			{
 				withCredentials: true,

@@ -25,7 +25,7 @@ const Home = ({ location }) => {
 
 	const verify = () => {
 		Axios.post(
-			"http://192.168.1.25:6600/api/verify",
+			"http://100.24.32.116:6600/api/verify",
 			{},
 			{
 				withCredentials: true,
