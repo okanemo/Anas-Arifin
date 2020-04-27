@@ -16,19 +16,17 @@ const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_dele
 	const stock = useRef();
 	const image = useRef();
 
-	const submit = (type, e) => {
-		e.preventDefault();
+	const submit = (type) => {
 		if (type == "delete") {
 			Axios.delete("http://100.24.32.116:6600/api/product", {
 				data: { id: cardData.id },
 				headers: { Authorization: token },
 				withCredentials: true,
-			}).then((response) => {
-				console.log(response);
+			}).then(() => {
 				dispatch(getProduct());
-				setClose();
-				setData({});
 			});
+			setClose();
+			setData({});
 			return;
 		}
 		const formData = new FormData();
@@ -37,10 +35,10 @@ const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_dele
 		formData.append("price", price.current.value);
 		formData.append("stock", stock.current.value);
 		if (image.current.files.length) {
-			if (["image/jpg", "image/jpeg", "image/png", "image/gif"].includes(image.current.files[0])) {
+			if (!["image/jpg", "image/jpeg", "image/png", "image/gif"].includes(image.current.files[0])) {
 				alert("File is not image type!");
 				return false;
-			} else if (image.size <= 1000000) {
+			} else if (image.size >= 1000000) {
 				alert("Maximum file size is 1mb!");
 				return false;
 			} else {
@@ -53,18 +51,18 @@ const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_dele
 				withCredentials: true,
 			}).then(() => {
 				dispatch(getProduct());
-				setClose();
-				setData({});
 			});
+			setClose();
+			setData({});
 		} else {
 			Axios.post("http://100.24.32.116:6600/api/product", formData, {
 				headers: { Authorization: token },
 				withCredentials: true,
 			}).then(() => {
 				dispatch(getProduct());
-				setClose();
-				setData({});
 			});
+			setClose();
+			setData({});
 		}
 	};
 

@@ -67,10 +67,10 @@ const Profile = ({ user, show, setClose }) => {
 				withCredentials: true,
 			}).then((resolve) => {
 				dispatch(login(resolve.data));
-				setEdit(false);
-				setClose();
 			});
 		});
+		setEdit(false);
+		setClose();
 	};
 
 	return (
