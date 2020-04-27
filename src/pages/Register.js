@@ -75,6 +75,7 @@ const Register = () => {
 					}}>
 					<h1>{warning}</h1>
 					<form>
+						<span>Register</span>
 						<input type="text" onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
 						<input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
 						<input type="password" onChange={(e) => setRePassword(e.target.value)} placeholder="Re-type password" />

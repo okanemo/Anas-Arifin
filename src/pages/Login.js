@@ -23,11 +23,15 @@ const Login = () => {
 						withCredentials: true,
 					},
 				).then(async (resolve) => {
-					await dispatch(login(resolve.data));
-					history.replace({
-						pathname: "/",
-						state: resolve.data.id,
-					});
+					if (resolve.data.error) {
+						alert(resolve.data.error);
+					} else {
+						await dispatch(login(resolve.data));
+						history.replace({
+							pathname: "/",
+							state: resolve.data.id,
+						});
+					}
 				});
 			} else {
 				alert("Password is empty!");
@@ -71,6 +75,7 @@ const Login = () => {
 						submit(e);
 					}}>
 					<form>
+						<span>Login</span>
 						<input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
 						<input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
 						<div>

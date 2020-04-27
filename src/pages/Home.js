@@ -3,12 +3,12 @@ import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../redux/actions/user";
-import Sidebar from "../components/Home/Sidebar";
-import Product from "../components/Home/Product";
-import Admin from "../components/Home/Admin";
-import Profile from "../components/Home/Profile";
-import Modal from "../components/Home/ModalProduct";
-import Privilege from "../components/Home/Privilege";
+import Sidebar from "../components/Sidebar";
+import Product from "../components/Product";
+import Admin from "../components/Admin";
+import Profile from "../components/Profile";
+import Modal from "../components/ModalProduct";
+import Privilege from "../components/Privilege";
 
 const Home = ({ location }) => {
 	const [page, setPage] = useState();
@@ -52,14 +52,6 @@ const Home = ({ location }) => {
 		<>
 			{user ? (
 				<div id="home">
-					{" "}
-					<button
-						type="submit"
-						onClick={() => {
-							console.log(userList);
-						}}>
-						TESt
-					</button>
 					<Sidebar
 						priv_add={user.priv_add}
 						id={user.id}
@@ -135,14 +127,7 @@ const Home = ({ location }) => {
 					/>
 				</div>
 			) : (
-				<div className="loading">
-					<h1
-						onClick={() => {
-							console.log(user);
-						}}>
-						Loading
-					</h1>
-				</div>
+				<div className="loading" />
 			)}
 		</>
 	);

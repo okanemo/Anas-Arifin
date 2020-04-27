@@ -14,18 +14,28 @@
 	margin: 0 auto 15px;
 	padding: 12px 16px;
 	border: none;
-	border-bottom: 1.5px solid hotpink;
+	border-bottom: 1.5px solid $primary;
 	width: 100%;
 	outline: none;
 	display: block;
 }
 
-$primary: red;
-$secondary: black;
+$primary: #039be5;
+$secondary: salmon;
+$alert: #e53935;
+.alert {
+	color: $alert;
+}
+
+@font-face {
+	font-family: Roboto;
+	src: url("./fonts/Roboto-Regular.ttf");
+}
 
 body {
 	margin: 0px;
 	background-color: whitesmoke;
+	font-family: Roboto;
 }
 
 // ====================
@@ -48,7 +58,7 @@ body {
 				position: absolute;
 				bottom: 0;
 				width: 100%;
-				background-color: rgba(0, 0, 0, 0.75);
+				background-color: rgba(114, 104, 104, 0.75);
 				border-radius: 0 0 10px 10px;
 				font-size: 25px;
 				text-align: center;
@@ -63,12 +73,20 @@ body {
 		top: 0;
 		width: 80px;
 		height: 100%;
-		background-color: salmon;
-		padding: 8px 0;
+		background-color: #e0e0e0;
+		box-shadow: 3px 0 3px 0 rgba(0, 0, 0, 0.2);
 		img {
-			width: 100%;
-			margin: 10px 0;
+			display: block;
+			width: 60px;
+			height: auto;
+			margin: 20px auto;
 			cursor: pointer;
+			&:last-child {
+				position: absolute;
+				bottom: 0px;
+				left: 10px;
+				margin-bottom: 15px;
+			}
 		}
 	}
 	.modal {
@@ -76,7 +94,6 @@ body {
 		position: fixed;
 		width: 90%;
 		max-width: 400px;
-		// height: 240px;
 		top: 150%;
 		background-color: whitesmoke;
 		padding: 20px;
@@ -86,24 +103,55 @@ body {
 		label {
 			display: block;
 			margin-bottom: 10px;
+			&:nth-child(1) {
+				cursor: pointer;
+			}
 		}
 		input {
-			position: absolute;
-			width: 50%;
-			height: 20px;
-			right: 20px;
+			@include input;
+			text-align: center;
+			background-color: transparent;
+			font-size: 1.3rem;
+			&:disabled {
+				border-bottom: 1.5px solid transparent;
+				color: black;
+			}
 		}
-		textarea {
-			position: absolute;
-			width: 50%;
-			height: 20px;
-			right: 20px;
+		.image {
+			margin-bottom: 16px;
+			img {
+				display: block;
+				margin: auto;
+				width: 100px;
+				max-height: 150px;
+				height: auto;
+			}
 		}
 		.button {
 			text-align: center;
-			// margin-top: 16px;
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			width: 100%;
+			gap: 20px;
+			height: 40px;
+			line-height: 40px;
+			margin-top: 25px;
 			button {
-				margin: 0 15px;
+				outline: none;
+				background-color: $primary;
+				border: 2px solid $primary;
+				color: white;
+				&.alert {
+					background-color: $alert;
+					border: 2px solid $alert;
+					&:hover {
+						color: $alert;
+					}
+				}
+				&:hover {
+					background-color: white;
+					color: $primary;
+				}
 			}
 		}
 		.close {
@@ -142,7 +190,7 @@ body {
 	height: 95%;
 	top: 150%;
 	max-width: 400px;
-	max-height: 560px;
+	max-height: 590px;
 	font-size: 22px;
 	background-color: whitesmoke;
 	opacity: 0;
@@ -152,6 +200,7 @@ body {
 		label {
 			&:nth-child(1) {
 				margin-top: 30px;
+				cursor: pointer;
 			}
 		}
 		.button {
@@ -161,15 +210,6 @@ body {
 		img {
 			display: block;
 			margin: 20px auto 0;
-			&.close {
-				position: absolute;
-				top: -20px;
-				right: -20px;
-				width: 40px;
-				z-index: 99;
-				margin: 0;
-				cursor: pointer;
-			}
 		}
 		h1 {
 			margin: 10px auto 20px;
@@ -177,14 +217,14 @@ body {
 		}
 		button {
 			outline: none;
-			background-color: hotpink;
-			border: 2px solid hotpink;
+			background-color: $primary;
+			border: 2px solid $primary;
 			color: white;
 			width: 45%;
 			height: 40px;
 			&:hover {
 				background-color: white;
-				color: hotpink;
+				color: $primary;
 			}
 			&:nth-child(2) {
 				position: absolute;
@@ -194,6 +234,15 @@ body {
 				position: static;
 				width: 100%;
 			}
+		}
+		.close {
+			position: absolute;
+			top: -20px;
+			right: -20px;
+			width: 40px;
+			z-index: 99;
+			margin: 0;
+			cursor: pointer;
 		}
 	}
 	&.show {
@@ -219,11 +268,50 @@ body {
 		}
 	}
 	.button {
+		position: relative;
 		margin-bottom: 16px;
+		width: 100%;
+		button {
+			height: 40px;
+			outline: none;
+			background-color: $primary;
+			border: 2px solid $primary;
+			color: white;
+			width: 45%;
+			&.alert {
+				background-color: $alert;
+				border: 2px solid $alert;
+				&:hover {
+					color: $alert;
+				}
+			}
+			&:hover {
+				background-color: white;
+				color: $primary;
+			}
+			&:nth-child(2) {
+				position: absolute;
+				right: 0;
+			}
+			&.editProfile {
+				position: static;
+				width: 100%;
+			}
+		}
+	}
+	.close {
+		position: absolute;
+		top: -20px;
+		right: -20px;
+		width: 40px;
+		z-index: 99;
+		margin: 0;
+		cursor: pointer;
 	}
 	h4 {
 		text-align: center;
 		margin-block-start: 15px;
+		margin-block-end: 15px;
 	}
 	label {
 		display: block;
@@ -242,11 +330,6 @@ body {
 			margin-top: 3px;
 			font: arial;
 		}
-		input[type="number"]::-webkit-inner-spin-button,
-		input[type="number"]::-webkit-outer-spin-button {
-			-webkit-appearance: none;
-			margin: 0;
-		}
 	}
 }
 
@@ -259,11 +342,13 @@ ul {
 	margin-block-end: 0;
 }
 #admin {
+	padding: 30px 0;
 	.table {
 		width: 90%;
 		max-width: 1000px;
 		margin: auto;
 		position: relative;
+		// box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.2);
 		span {
 			position: absolute;
 			top: -30px;
@@ -300,7 +385,7 @@ ul {
 	.list {
 		cursor: pointer;
 		&:hover {
-			color: salmon;
+			color: $primary;
 			font-weight: bold;
 		}
 		&:nth-child(odd) {
@@ -314,7 +399,7 @@ ul {
 		}
 	}
 	.topTable {
-		background-color: #90a4ae;
+		background-color: #8998a0;
 		font-size: 20px;
 		font-weight: bold;
 		border-radius: 10px 10px 0 0;
@@ -348,21 +433,21 @@ ul {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		gap: 10px;
-		margin-top: 15px;
+		margin-top: 20px;
 		button {
 			background-color: white;
-			border: 2px solid hotpink;
-			color: hotpink;
+			border: 2px solid $primary;
+			color: $primary;
 		}
 		.check {
-			background-color: hotpink;
-			border: 2px solid hotpink;
+			background-color: $primary;
+			border: 2px solid $primary;
 			color: white;
 		}
 	}
 	.button {
-		background-color: hotpink;
-		border: 2px solid hotpink;
+		background-color: $primary;
+		border: 2px solid $primary;
 		color: white;
 		margin-top: 20px;
 		width: 100%;
@@ -387,11 +472,32 @@ ul {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: blue;
+	background-image: url("./images/pattern.png");
 	form {
+		position: relative;
 		width: 350px;
 		padding: 30px;
 		background-color: white;
+		border-radius: 5px;
+		animation: login 0.5s;
+		@keyframes login {
+			from {
+				top: 100px;
+				opacity: 0;
+			}
+			to {
+				top: 0;
+				opacity: 1;
+			}
+		}
+		span {
+			display: block;
+			font-size: 30px;
+			font-weight: bold;
+			margin: auto;
+			width: fit-content;
+			margin-bottom: 12px;
+		}
 		input {
 			@include input;
 		}
@@ -402,14 +508,14 @@ ul {
 		}
 		button {
 			outline: none;
-			background-color: hotpink;
-			border: 2px solid hotpink;
+			background-color: $primary;
+			border: 2px solid $primary;
 			color: white;
 			width: 45%;
 			height: 40px;
 			&:hover {
 				background-color: white;
-				color: hotpink;
+				color: $primary;
 			}
 			&:nth-child(2) {
 				position: absolute;

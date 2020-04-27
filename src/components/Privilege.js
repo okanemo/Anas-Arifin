@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useDispatch } from "react-redux";
-import { getUserList } from "../../redux/actions/user";
-import close from "../../images/close.png";
+import { getUserList } from "../redux/actions/user";
+import close from "../images/close.png";
 
 const Privilege = ({ user, token, setClose }) => {
 	const [priv, setPriv] = useState({});

@@ -1,6 +1,10 @@
 import React, { useState, useRef } from "react";
-import close from "../../images/close.png";
-import admin from "../../images/admin.png";
+import Axios from "axios";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/actions/user";
+import close from "../images/close.png";
+import admin from "../images/admin.png";
+import no_avatar from "../images/no_avatar.png";
 
 const urlImg = "http://192.168.1.25:6600/public/img/avatar/";
 
@@ -14,23 +18,51 @@ const Profile = ({ user, show, setClose }) => {
 	const avatar = useRef();
 	const password = useRef();
 	const rePassword = useRef();
+	const dispatch = useDispatch();
 
 	const submit = () => {
 		const formData = new FormData();
-		formData.append("name", name.current.value);
-		formData.append("email", email.current.value);
-		formData.append("phone", phone.current.value);
-		formData.append("address", address.current.value);
+		if (name.current.value) {
+			formData.append("name", name.current.value);
+		}
+		if (email.current.value) {
+			formData.append("email", email.current.value);
+		}
+		if (phone.current.value) {
+			formData.append("phone", phone.current.value);
+		}
+		if (address.current.value) {
+			formData.append("address", address.current.value);
+		}
 		if (avatar.current.files.length) {
 			formData.append("avatar", avatar.current.files[0]);
 		}
 		if (password.current.value) {
 			if (password.current.value === rePassword.current.value) {
-				formData.append("password", password.current.value);
+				if (password.current.value.length >= 6) {
+					formData.append("password", password.current.value);
+				} else {
+					alert("Minimum password is 6 character!");
+					return false;
+				}
 			} else {
-				setInfo("Re-type password is not match!");
+				alert("Re-type password is not match!");
+				return false;
 			}
 		}
+		Axios.patch("http://192.168.1.25:6600/api/user/" + user.username, formData, {
+			headers: { Authorization: user.token },
+			withCredentials: true,
+		}).then(() => {
+			Axios.get("http://192.168.1.25:6600/api/user/" + user.username, {
+				headers: { Authorization: user.token },
+				withCredentials: true,
+			}).then((resolve) => {
+				dispatch(login(resolve.data));
+				setEdit(false);
+				setClose();
+			});
+		});
 	};
 
 	return (
@@ -68,12 +100,13 @@ const Profile = ({ user, show, setClose }) => {
 								<button
 									type="button"
 									onClick={() => {
-										console.log(user);
+										submit();
 									}}>
 									Save
 								</button>
 								<button
 									type="button"
+									className="alert"
 									onClick={async () => {
 										password.current.value = "";
 										rePassword.current.value = "";
@@ -101,8 +134,8 @@ const Profile = ({ user, show, setClose }) => {
 					<div className="scroll">
 						<form>
 							<label className="image">
-								<img src={urlImg + user.avatar} />
-								<input type="file" style={{ display: "none" }} ref={avatar} />
+								<img src={user.avatar ? urlImg + user.avatar : no_avatar} />
+								<input type="file" style={{ display: "none" }} ref={avatar} disabled={!edit} />
 							</label>
 							<h4>{user.username}</h4>
 							<label>
@@ -115,7 +148,7 @@ const Profile = ({ user, show, setClose }) => {
 							</label>
 							<label>
 								Phone:
-								<input type="text" defaultValue={user.phone} disabled={!edit} ref={phone} />
+								<input type="number" defaultValue={user.phone} disabled={!edit} ref={phone} />
 							</label>
 							<label>
 								Address:
@@ -125,11 +158,11 @@ const Profile = ({ user, show, setClose }) => {
 								<>
 									<label>
 										Password:
-										<input type="text" disabled={!edit} ref={password} />
+										<input type="password" disabled={!edit} ref={password} />
 									</label>
 									<label>
 										Re-type password:
-										<input type="text" disabled={!edit} ref={rePassword} />
+										<input type="password" disabled={!edit} ref={rePassword} />
 									</label>
 								</>
 							) : (
@@ -141,12 +174,13 @@ const Profile = ({ user, show, setClose }) => {
 										<button
 											type="button"
 											onClick={() => {
-												console.log(user);
+												submit();
 											}}>
 											Save
 										</button>
 										<button
 											type="button"
+											className="alert"
 											onClick={async () => {
 												name.current.value = user.name || "";
 												email.current.value = user.email || "";
@@ -162,6 +196,7 @@ const Profile = ({ user, show, setClose }) => {
 								) : (
 									<button
 										type="button"
+										className="editProfile"
 										onClick={async () => {
 											await setEdit(true);
 											name.current.focus();

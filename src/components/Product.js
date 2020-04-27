@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getProduct } from "../../redux/actions/product";
+import { getProduct } from "../redux/actions/product";
+import no_image from "../images/no_image.png";
 
 const urlImg = "http://192.168.1.25:6600/public/img/product/";
 
@@ -19,7 +20,7 @@ const Product = ({ setOpen, setCardData }) => {
 			<div
 				className="card"
 				key={x.id}
-				style={{ backgroundImage: `url(${urlImg + x.image})` }}
+				style={{ backgroundImage: x.image ? `url(${urlImg + x.image})` : `url(${no_image})` }}
 				onClick={() => {
 					setOpen();
 					setCardData(x);

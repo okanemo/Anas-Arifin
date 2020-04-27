@@ -1,8 +1,11 @@
 import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import Axios from "axios";
-import close from "../../images/close.png";
-import { getProduct } from "../../redux/actions/product";
+import close from "../images/close.png";
+import { getProduct } from "../redux/actions/product";
+import no_image from "../images/no_image.png";
+
+const urlImg = "http://192.168.1.25:6600/public/img/product/";
 
 const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_delete }) => {
 	const [data, setData] = useState({});
@@ -13,7 +16,8 @@ const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_dele
 	const stock = useRef();
 	const image = useRef();
 
-	const submit = (type) => {
+	const submit = (type, e) => {
+		e.preventDefault();
 		if (type == "delete") {
 			Axios.delete("http://192.168.1.25:6600/api/product", {
 				data: { id: cardData.id },
@@ -59,6 +63,10 @@ const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_dele
 	return (
 		<div className={show ? "modal show" : "modal"}>
 			<form>
+				<label className="image">
+					<img src={cardData.image ? urlImg + cardData.image : no_image} />
+					<input type="file" style={{ display: "none" }} disabled={priv_add ? false : !priv_edit} ref={image} />
+				</label>
 				<label>
 					Name:
 					<input
@@ -119,13 +127,10 @@ const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_dele
 						ref={stock}
 					/>
 				</label>
-				<label>
-					Image:
-					<input type="file" disabled={priv_add ? false : !priv_edit} ref={image} />
-				</label>
 				<div className="button">
 					{priv_add ? (
 						<button
+							style={{ gridColumn: "span 2" }}
 							type="button"
 							onClick={() => {
 								if (name.current.value && desc.current.value && price.current.value && stock.current.value) {
@@ -141,6 +146,8 @@ const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_dele
 					)}
 					{priv_edit ? (
 						<button
+							style={{ gridColumn: priv_delete ? "" : "span 2" }}
+							type="button"
 							onClick={() => {
 								if (name.current.value && desc.current.value && price.current.value && stock.current.value) {
 									submit("edit");
@@ -155,9 +162,10 @@ const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_dele
 					)}
 					{priv_delete ? (
 						<button
+							className="alert"
+							style={{ gridColumn: priv_edit ? "" : "span 2" }}
 							type="button"
 							onClick={() => {
-								console.log(1);
 								submit("delete");
 							}}>
 							Delete

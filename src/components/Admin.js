@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import Axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserList } from "../../redux/actions/user";
+import { getUserList } from "../redux/actions/user";
 import Privilege from "./Privilege";
 
 const Admin = ({ token, setPriv }) => {
 	const userList = useSelector((state) => state.user.userList);
 	const dispatch = useDispatch();
+
+	// const submit
 
 	useEffect(() => {
 		Axios.get("http://192.168.1.25:6600/api/user", {
@@ -36,7 +38,6 @@ const Admin = ({ token, setPriv }) => {
 
 	return (
 		<div id="admin">
-			<h1 onClick={() => {}}>Hello admin!</h1>
 			<div className="table">
 				<span>Note: [A] Add | [E] Edit | [D] Delete</span>
 				<div className="topTable">
