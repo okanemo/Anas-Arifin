@@ -37,7 +37,15 @@ const Modal = ({ token, cardData, show, setClose, priv_add, priv_edit, priv_dele
 		formData.append("price", price.current.value);
 		formData.append("stock", stock.current.value);
 		if (image.current.files.length) {
-			formData.append("image", image.current.files[0]);
+			if (["image/jpg", "image/jpeg", "image/png", "image/gif"].includes(image.current.files[0])) {
+				alert("File is not image type!");
+				return false;
+			} else if (image.size <= 1000000) {
+				alert("Maximum file size is 1mb!");
+				return false;
+			} else {
+				formData.append("image", image.current.files[0]);
+			}
 		}
 		if (type == "edit") {
 			Axios.patch("http://192.168.1.25:6600/api/product/" + cardData.id, formData, {

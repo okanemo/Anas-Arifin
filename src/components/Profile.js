@@ -35,7 +35,15 @@ const Profile = ({ user, show, setClose }) => {
 			formData.append("address", address.current.value);
 		}
 		if (avatar.current.files.length) {
-			formData.append("avatar", avatar.current.files[0]);
+			if (!["image/jpg", "image/jpeg", "image/png", "image/gif"].includes(image.current.files[0])) {
+				alert("File is not image type!");
+				return false;
+			} else if (image.size >= 1000000) {
+				alert("Maximum file size is 1mb!");
+				return false;
+			} else {
+				formData.append("image", image.current.files[0]);
+			}
 		}
 		if (password.current.value) {
 			if (password.current.value === rePassword.current.value) {
